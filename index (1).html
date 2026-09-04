@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahu's Shopping Collection — Fresh Finds, Best Prices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#161B33;
+    --navy-deep:#0E1224;
+    --paper:#FBF7EF;
+    --gold:#E8A23D;
+    --gold-deep:#C97F1F;
+    --teal:#1F6F5C;
+    --ink:#1B1B23;
+    --ink-soft:#5B5A66;
+    --line:rgba(27,27,35,0.12);
+    --radius-card: 14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    margin:0;
+    font-weight:600;
+  }
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+  a{color:inherit;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 22px;
+    background:var(--navy);
+    color:var(--paper);
+  }
+  .brand{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-name{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:700;letter-spacing:.2px;}
+  .brand-tag{font-size:.72rem;color:var(--gold);letter-spacing:.3px;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:78vh;
+    display:flex;
+    align-items:flex-end;
+    background:
+      linear-gradient(180deg, rgba(14,18,36,.25) 0%, rgba(14,18,36,.55) 55%, rgba(14,18,36,.92) 100%),
+      url('https://i.ibb.co/bR8R0BvV/IMG-0895.jpg') center/cover no-repeat;
+  }
+  .hero-inner{
+    padding:48px 22px 56px;
+    max-width:640px;
+  }
+  .hero-eyebrow{
+    color:var(--gold);
+    font-size:.85rem;
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .hero h1{
+    color:var(--paper);
+    font-size:clamp(2.1rem,7vw,3.4rem);
+    line-height:1.05;
+  }
+  .hero p{
+    color:rgba(251,247,239,.85);
+    margin-top:14px;
+    font-size:1.05rem;
+    max-width:46ch;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 26px;
+    border-radius:100px;
+    font-weight:600;
+    font-size:.95rem;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-gold{
+    background:var(--gold);
+    color:var(--navy-deep);
+    box-shadow:0 8px 24px rgba(232,162,61,.35);
+  }
+  .btn-gold:hover{background:var(--gold-deep);}
+  .hero-cta{margin-top:26px;}
+
+  /* ---------- Section shell ---------- */
+  .section{padding:56px 22px;}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    margin-bottom:22px;
+    max-width:1080px;margin-left:auto;margin-right:auto;
+  }
+  .section-head h2{font-size:1.7rem;}
+  .section-head span{color:var(--ink-soft);font-size:.9rem;}
+
+  /* ---------- Product carousel ---------- */
+  .carousel{
+    display:flex;
+    gap:16px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding:6px 4px 18px;
+    max-width:1080px;margin:0 auto;
+    scrollbar-width:thin;
+    scrollbar-color:var(--gold) transparent;
+  }
+  .carousel::-webkit-scrollbar{height:6px;}
+  .carousel::-webkit-scrollbar-thumb{background:var(--gold);border-radius:10px;}
+
+  .card{
+    flex:0 0 240px;
+    scroll-snap-align:start;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-card);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .card-img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    background:#eee;
+  }
+  .card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1;}
+  .card-name{font-family:'Fraunces',serif;font-size:1.02rem;font-weight:600;}
+  .card-price{color:var(--teal);font-weight:700;font-size:1.05rem;}
+  .card-add{
+    margin-top:auto;
+    background:var(--navy);
+    color:var(--paper);
+    border-radius:9px;
+    padding:10px;
+    font-weight:600;
+    font-size:.88rem;
+  }
+  .card-add:hover{background:var(--navy-deep);}
+  .card-add.added{background:var(--teal);}
+
+  /* ---------- About / trust strip ---------- */
+  .strip{
+    background:var(--navy);
+    color:var(--paper);
+    text-align:center;
+    padding:34px 22px;
+  }
+  .strip p{max-width:520px;margin:0 auto;color:rgba(251,247,239,.82);font-size:.95rem;}
+  .strip h3{color:var(--gold);font-size:1.3rem;margin-bottom:8px;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:26px 22px 100px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:.82rem;
+  }
+
+  /* ---------- Floating buttons ---------- */
+  .fab-stack{
+    position:fixed;
+    right:18px;bottom:18px;
+    z-index:60;
+    display:flex;flex-direction:column;gap:12px;
+    align-items:flex-end;
+  }
+  .fab{
+    width:56px;height:56px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 24px rgba(0,0,0,.25);
+    position:relative;
+  }
+  .fab-cart{background:var(--gold);color:var(--navy-deep);}
+  .fab-wa{background:#25D366;color:#fff;position:fixed;left:18px;bottom:18px;z-index:60;}
+  .fab svg{width:26px;height:26px;}
+  .cart-badge{
+    position:absolute;top:-4px;right:-4px;
+    background:var(--navy-deep);
+    color:var(--paper);
+    font-size:.7rem;font-weight:700;
+    min-width:20px;height:20px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    padding:0 4px;
+  }
+
+  /* ---------- Cart drawer ---------- */
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(14,18,36,.5);
+    opacity:0;pointer-events:none;
+    transition:opacity .25s ease;
+    z-index:70;
+  }
+  .overlay.open{opacity:1;pointer-events:auto;}
+
+  .drawer{
+    position:fixed;top:0;right:0;bottom:0;
+    width:min(400px,92vw);
+    background:var(--paper);
+    z-index:71;
+    transform:translateX(100%);
+    transition:transform .28s ease;
+    display:flex;flex-direction:column;
+    box-shadow:-8px 0 30px rgba(0,0,0,.2);
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{
+    padding:18px 20px;
+    background:var(--navy);
+    color:var(--paper);
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .drawer-head h3{font-size:1.1rem;}
+  .drawer-close{background:none;color:var(--paper);font-size:1.3rem;line-height:1;padding:4px 8px;}
+
+  .drawer-body{flex:1;overflow-y:auto;padding:16px 20px;}
+  .empty-msg{color:var(--ink-soft);text-align:center;margin-top:40px;font-size:.92rem;}
+
+  .cart-item{
+    display:flex;gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+    align-items:center;
+  }
+  .cart-item img{width:56px;height:56px;object-fit:cover;border-radius:8px;}
+  .cart-item-info{flex:1;}
+  .cart-item-name{font-weight:600;font-size:.92rem;}
+  .cart-item-price{color:var(--teal);font-size:.85rem;font-weight:600;}
+  .qty-row{display:flex;align-items:center;gap:8px;margin-top:6px;}
+  .qty-btn{
+    width:24px;height:24px;border-radius:6px;
+    background:var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:.9rem;
+  }
+  .qty-val{font-size:.88rem;font-weight:600;min-width:16px;text-align:center;}
+  .remove-btn{
+    background:none;color:#B3452F;font-size:.78rem;font-weight:600;
+    text-decoration:underline;padding:0;margin-left:auto;
+  }
+
+  .drawer-form{
+    padding:16px 20px 4px;
+    border-top:1px solid var(--line);
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .drawer-form label{font-size:.8rem;font-weight:600;color:var(--ink-soft);}
+  .drawer-form input,.drawer-form textarea{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-family:inherit;
+    font-size:.92rem;
+    background:#fff;
+  }
+  .drawer-form textarea{resize:vertical;min-height:56px;}
+
+  .drawer-footer{
+    padding:14px 20px 20px;
+  }
+  .total-row{
+    display:flex;justify-content:space-between;
+    font-weight:700;font-size:1.05rem;
+    margin-bottom:12px;
+  }
+  .send-btn{
+    width:100%;
+    background:var(--teal);
+    color:#fff;
+    border-radius:10px;
+    padding:14px;
+    font-weight:700;
+    font-size:.98rem;
+  }
+  .send-btn:disabled{opacity:.6;cursor:not-allowed;}
+  .form-note{font-size:.75rem;color:var(--ink-soft);margin-top:8px;text-align:center;}
+  .status-msg{font-size:.85rem;text-align:center;margin-top:10px;font-weight:600;}
+  .status-msg.ok{color:var(--teal);}
+  .status-msg.err{color:#B3452F;}
+
+  @media (min-width:720px){
+    .hero-inner{padding-bottom:76px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="brand-name">Sahu's Shopping Collection</span>
+    <span class="brand-tag">Fresh Finds, Best Prices</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Sahu's Shopping Collection</div>
+    <h1>Fresh Finds, Best Prices</h1>
+    <p>Handpicked gadgets and accessories, priced fair and delivered with care — straight from our shop to your door.</p>
+    <div class="hero-cta">
+      <a href="#products" class="btn btn-gold">Shop Now ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section" id="products">
+  <div class="section-head">
+    <h2>Our Collection</h2>
+    <span>Swipe to browse →</span>
+  </div>
+  <div class="carousel" id="carousel">
+    <!-- Product cards injected by JS -->
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="strip">
+  <h3>Why shop with us?</h3>
+  <p>Every order is packed by hand and checked twice. Have a question before you buy? Message us on WhatsApp — we usually reply within minutes.</p>
+</div>
+
+<footer>
+  <p>Sahu's Shopping Collection · <a href="mailto:sahugirja751@gmail.com">sahugirja751@gmail.com</a></p>
+  <p>&copy; <span id="year"></span> Sahu's Shopping Collection. All rights reserved.</p>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="fab-stack">
+  <button class="fab fab-cart" id="cartFab" aria-label="Open cart">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+    <span class="cart-badge" id="cartBadge">0</span>
+  </button>
+</div>
+
+<a class="fab fab-wa" href="https://wa.me/918302088881" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.1-.3-.3-.3-.5-.3h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"></path><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3.5.9.9-3.4-.2-.3C3.4 14.4 2.9 13.2 2.9 12 2.9 7 7 2.9 12 2.9S21.1 7 21.1 12 17 20.2 12 20.2z"></path></svg>
+</a>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Your Cart</h3>
+    <button class="drawer-close" id="drawerClose" aria-label="Close cart">&times;</button>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <p class="empty-msg" id="emptyMsg">Your cart is empty. Add something you like!</p>
+  </div>
+
+  <form id="orderForm">
+    <div class="drawer-form">
+      <div>
+        <label for="custName">Your name</label>
+        <input type="text" id="custName" required placeholder="e.g. Ramesh Sharma">
+      </div>
+      <div>
+        <label for="custPhone">Phone number</label>
+        <input type="tel" id="custPhone" required placeholder="e.g. 98765 43210">
+      </div>
+      <div>
+        <label for="custAddress">Delivery address / notes (optional)</label>
+        <textarea id="custAddress" placeholder="House no, street, landmark..."></textarea>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <div class="total-row"><span>Total</span><span id="cartTotal">₹0</span></div>
+      <button type="submit" class="send-btn" id="sendBtn">Send Order</button>
+      <p class="form-note">This opens WhatsApp with your order filled in — just hit send there.</p>
+      <p class="status-msg" id="statusMsg"></p>
+    </div>
+  </form>
+</div>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* =========================================================
+     EmailJS CONFIG — replace these three values with your own
+     (create a free account at https://www.emailjs.com)
+     1. EMAILJS_PUBLIC_KEY  -> Account > General > Public Key
+     2. EMAILJS_SERVICE_ID  -> Email Services > your service
+     3. EMAILJS_TEMPLATE_ID -> Email Templates > your template
+     The template should include variables:
+     {{customer_name}}, {{customer_phone}}, {{customer_address}},
+     {{order_items}}, {{order_total}}, {{to_email}}
+  ========================================================= */
+  const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";
+  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+  const OWNER_EMAIL = "sahugirja751@gmail.com";
+  const WHATSAPP_NUMBER = "918302088881"; // shop's WhatsApp number, country code included, no + or spaces
+
+  if (window.emailjs && EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
+
+  /* ---------------- Product data ---------------- */
+  const PRODUCTS = [
+    {
+      id: "mouse",
+      name: "Wireless Mouse",
+      price: 499,
+      img: "https://i.ibb.co/GfDTVCDM/mouse.jpg"
+    },
+    {
+      id: "headphone",
+      name: "Over-Ear Headphones",
+      price: 1299,
+      img: "https://i.ibb.co/PvVFKRX1/headphone.jpg"
+    },
+    {
+      id: "airbuds",
+      name: "Wireless Ear Buds",
+      price: 999,
+      img: "https://i.ibb.co/RG2DL4sh/air-buds.jpg"
+    }
+  ];
+
+  const carousel = document.getElementById('carousel');
+  PRODUCTS.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img class="card-img" src="${p.img}" alt="${p.name}">
+      <div class="card-body">
+        <div class="card-name">${p.name}</div>
+        <div class="card-price">₹${p.price}</div>
+        <button class="card-add" data-id="${p.id}">Add to Cart</button>
+      </div>
+    `;
+    carousel.appendChild(card);
+  });
+
+  /* ---------------- Cart state ---------------- */
+  let cart = {}; // id -> qty
+
+  function addToCart(id) {
+    cart[id] = (cart[id] || 0) + 1;
+    renderCart();
+  }
+  function changeQty(id, delta) {
+    if (!cart[id]) return;
+    cart[id] += delta;
+    if (cart[id] <= 0) delete cart[id];
+    renderCart();
+  }
+  function removeItem(id) {
+    delete cart[id];
+    renderCart();
+  }
+
+  function cartCount() {
+    return Object.values(cart).reduce((a, b) => a + b, 0);
+  }
+  function cartTotal() {
+    return Object.entries(cart).reduce((sum, [id, qty]) => {
+      const p = PRODUCTS.find(p => p.id === id);
+      return sum + (p ? p.price * qty : 0);
+    }, 0);
+  }
+
+  const drawerBody = document.getElementById('drawerBody');
+  const emptyMsg = document.getElementById('emptyMsg');
+  const cartBadge = document.getElementById('cartBadge');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const sendBtn = document.getElementById('sendBtn');
+
+  function renderCart() {
+    cartBadge.textContent = cartCount();
+    cartTotalEl.textContent = `₹${cartTotal()}`;
+    sendBtn.disabled = cartCount() === 0;
+
+    // clear existing item rows (keep empty message node)
+    [...drawerBody.querySelectorAll('.cart-item')].forEach(el => el.remove());
+
+    const ids = Object.keys(cart);
+    emptyMsg.style.display = ids.length ? 'none' : 'block';
+
+    ids.forEach(id => {
+      const p = PRODUCTS.find(p => p.id === id);
+      const qty = cart[id];
+      const row = document.createElement('div');
+      row.className = 'cart-item';
+      row.innerHTML = `
+        <img src="${p.img}" alt="${p.name}">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${p.name}</div>
+          <div class="cart-item-price">₹${p.price} × ${qty} = ₹${p.price * qty}</div>
+          <div class="qty-row">
+            <button type="button" class="qty-btn" data-action="dec" data-id="${id}">−</button>
+            <span class="qty-val">${qty}</span>
+            <button type="button" class="qty-btn" data-action="inc" data-id="${id}">+</button>
+            <button type="button" class="remove-btn" data-action="remove" data-id="${id}">Remove</button>
+          </div>
+        </div>
+      `;
+      drawerBody.appendChild(row);
+    });
+  }
+
+  carousel.addEventListener('click', e => {
+    const btn = e.target.closest('.card-add');
+    if (!btn) return;
+    addToCart(btn.dataset.id);
+    btn.textContent = 'Added ✓';
+    btn.classList.add('added');
+    setTimeout(() => {
+      btn.textContent = 'Add to Cart';
+      btn.classList.remove('added');
+    }, 1000);
+  });
+
+  drawerBody.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const { action, id } = btn.dataset;
+    if (action === 'inc') changeQty(id, 1);
+    if (action === 'dec') changeQty(id, -1);
+    if (action === 'remove') removeItem(id);
+  });
+
+  /* ---------------- Drawer open/close ---------------- */
+  const overlay = document.getElementById('overlay');
+  const drawer = document.getElementById('drawer');
+
+  function openDrawer() {
+    overlay.classList.add('open');
+    drawer.classList.add('open');
+  }
+  function closeDrawer() {
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+  }
+  document.getElementById('cartFab').addEventListener('click', openDrawer);
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  /* ---------------- Send order via EmailJS ---------------- */
+  const statusMsg = document.getElementById('statusMsg');
+
+  document.getElementById('orderForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (cartCount() === 0) return;
+
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const address = document.getElementById('custAddress').value.trim();
+
+    const itemsText = Object.entries(cart).map(([id, qty]) => {
+      const p = PRODUCTS.find(p => p.id === id);
+      return `${p.name} × ${qty} = ₹${p.price * qty}`;
+    }).join('\n');
+
+    const templateParams = {
+      customer_name: name,
+      customer_phone: phone,
+      customer_address: address || 'Not provided',
+      order_items: itemsText,
+      order_total: `₹${cartTotal()}`,
+      to_email: OWNER_EMAIL
+    };
+
+    // Fallback: if EmailJS hasn't been configured with real keys yet,
+    // send the order straight to the shop's WhatsApp number instead.
+    // (mailto: links silently fail on devices with no default email app set up,
+    // but a wa.me link works everywhere since it just opens a page.)
+    if (!window.emailjs || EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
+      const waMessage =
+        `New order — Sahu's Shopping Collection\n\n` +
+        `Name: ${name}\n` +
+        `Phone: ${phone}\n` +
+        `Address/Notes: ${address || 'Not provided'}\n\n` +
+        `Order:\n${itemsText}\n\n` +
+        `Total: ₹${cartTotal()}`;
+      const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+      window.open(waLink, '_blank');
+
+      statusMsg.textContent = 'Opening WhatsApp with your order filled in — just hit send there.';
+      statusMsg.className = 'status-msg ok';
+      return;
+    }
+
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending...';
+    statusMsg.textContent = '';
+    statusMsg.className = 'status-msg';
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+      .then(() => {
+        statusMsg.textContent = 'Order sent! We will contact you shortly.';
+        statusMsg.className = 'status-msg ok';
+        cart = {};
+        renderCart();
+        this.reset();
+        sendBtn.textContent = 'Send Order';
+      })
+      .catch(err => {
+        console.error(err);
+        statusMsg.textContent = 'Something went wrong. Please try again or WhatsApp us.';
+        statusMsg.className = 'status-msg err';
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send Order';
+      });
+  });
+
+  renderCart();
+</script>
+</body>
+</html>
